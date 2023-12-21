@@ -1,0 +1,309 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #E7F0E8;
+        }
+
+        h3 {
+            background-color: #E7F0E8;
+        }
+
+        .event {
+            background-color: #4CAF50;
+            color: white;
+            padding: 4px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+
+        #popupContainer {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        /*#overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }*/
+
+    </style>
+
+    <style>
+        /* Add some basic styling to improve appearance */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        /*input {
+            padding: 10px;
+            font-size: 16px;
+
+        }*/
+        input[type=text], select {
+            width: 20%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+    </style>
+
+    @*for header items of table*@
+    <style>
+        /* Add some basic styling to improve appearance */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            /*border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;*/
+        }
+
+        .content {
+            padding: 12px;
+            background-color: white;
+            /*border-radius: 5px;*/
+        }
+    </style>
+
+    @*For Button days*@
+    <style>
+        .button {
+            background-color: #04AA6D; /* Green */
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .button1 {
+            background-color: white;
+            color: black;
+            border: 2px solid #04AA6D;
+        }
+
+            .button1:hover {
+                background-color: #04AA6D;
+                color: white;
+            }
+
+        
+    </style>
+
+
+</head>
+<body>
+
+    <!-- Popup container -->
+    <div id="popupContainer">
+        <p id="popupContent">This is a popup!</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <!-- Overlay to cover the background when the popup is open -->
+    @*<div id="overlay" onclick="closePopup()"></div>*@
+
+
+
+    <!-- Header Menu For Calendar -->
+    <table>
+        <thead>
+            <tr>
+                <th style="background-color: #D0ECD4; font-size: 20px;">
+                    Team Total Task
+
+                </th>
+                <th>
+                    <div class="content">
+                        28
+                    </div>
+                </th>
+
+                <th style="background-color: #D0ECD4; font-size: 20px;">
+                    Team Pending Task
+
+                </th>
+                <th>
+                    <div class="content">
+                        47
+                    </div>
+                </th>
+                <th style="background-color: #D0ECD4; font-size: 20px;">
+                    Team Active Task
+
+                </th>
+                <th>
+                    <div class="content">
+                        44
+                    </div>
+                </th>
+                <th style="background-color: #D0ECD4; font-size: 20px;">
+                    Team Completed Task
+
+                </th>
+                <th>
+                    <div class="content">
+                        10
+                    </div>
+                </th>
+
+            </tr>
+        </thead>
+
+    </table>
+
+    <h4><b>MIS Calendar</b><input type="text" id="searchInput" list="searchOptions" placeholder="Search Employee"> <button class="button button1">MyTask</button>  < Nov 2023 > <button class="button button1">Add New Task</button> </h4>
+    <!-- Text box with dropdown search -->
+    <!-- Dropdown options -->
+    <datalist id="searchOptions">
+        <option value="Harry Carpenter">
+        <option value="Vincent Huges">
+        <option value="Kevin Stewart">
+            <!-- Add more options as needed -->
+    </datalist>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="background-color: white;">Sunday</th>
+                <th style="background-color: white;">Monday</th>
+                <th style="background-color: white;">Tuesday</th>
+                <th style="background-color: white;">Wednesday</th>
+                <th style="background-color: white;">Thursday</th>
+                <th style="background-color: white;">Friday</th>
+                <th style="background-color: white;">Saturday</th>
+            </tr>
+        </thead>
+        <tbody id="calendar-body">
+            <!-- Calendar content will be added here dynamically -->
+        </tbody>
+    </table>
+
+    <!-- Table with four columns -->
+
+
+    <script>
+
+        // Function to open the popup
+        function openPopup(content) {
+            document.getElementById('popupContent').textContent = content;
+            document.getElementById('popupContainer').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById('popupContainer').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+
+
+        // Sample events (replace with your own)
+        const events = [
+            { date: '2023-12-25', title: 'Christmas', color: '#e74c3c' },
+            { date: '2023-12-31', title: 'New Year\'s Eve', color: '#3498db' },
+        ];
+
+        // Function to generate calendar
+        function generateCalendar() {
+            const calendarBody = document.getElementById('calendar-body');
+            calendarBody.innerHTML = '';
+
+            const startDate = new Date();
+            startDate.setDate(1);
+
+            while (startDate.getDay() !== 0) {
+                startDate.setDate(startDate.getDate() - 1);
+            }
+
+            for (let i = 0; i < 6; i++) {
+                const row = document.createElement('tr');
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('td');
+                    const day = startDate.getDate();
+                    cell.textContent = day;
+
+                    // Add a click event to each cell to open the popup
+                    cell.addEventListener('click', function () {
+                        openPopup('Popup for day ${day}');
+                    });
+
+
+                    const eventsForDay = events.filter(event => {
+                        const eventDate = new Date(event.date);
+                        return eventDate.getDate() === day && eventDate.getMonth() === startDate.getMonth();
+                    });
+
+                    eventsForDay.forEach(event => {
+                        const eventDiv = document.createElement('div');
+                        eventDiv.textContent = event.title;
+                        eventDiv.className = 'event';
+                        eventDiv.style.backgroundColor = event.color;
+                        cell.appendChild(eventDiv);
+                    });
+
+                    row.appendChild(cell);
+                    startDate.setDate(startDate.getDate() + 1);
+                }
+                calendarBody.appendChild(row);
+            }
+        }
+
+        // Generate the initial calendar
+        generateCalendar();
+    </script>
+
+</body>
+</html>
